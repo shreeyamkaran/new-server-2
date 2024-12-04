@@ -26,9 +26,9 @@ public class NotificationController {
         return notificationService.fetchAllNotifications(authentication);
     }
 
-    @PostMapping("/send")
-    public NotificationDto sendNotificationToEmployee(@RequestBody NotificationDto notification) {
-        return notificationService.sendNotificationToEmployee(notification);
+    @PostMapping("/send/{project-id}")
+    public NotificationDto sendNotificationToEmployee(@PathVariable("project-id") Long projectId, @RequestBody NotificationDto notification) {
+        return notificationService.sendNotificationToEmployee(projectId, notification);
     }
 
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationDto {
-    private Long id;
     private Long senderId;
     private Long receiverId;
     private Long subjectId;

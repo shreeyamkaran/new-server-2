@@ -23,5 +23,13 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
             nativeQuery = true)
     int updateProjectByTaskId(Long projectId, Long taskId);
 
+    @Query(value = "SELECT p.manager_id FROM project p " +
+            "INNER JOIN project_tasks pt " +
+            "ON p.id = pt.project_id " +
+            "WHERE pt.tasks_id = :taskId",
+            nativeQuery = true)
+    Long findManagerIdByTaskId(Long taskId);
+
     Project findByManagerId(Long managerId);
+
 }

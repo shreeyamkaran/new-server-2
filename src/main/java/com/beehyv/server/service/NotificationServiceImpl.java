@@ -2,8 +2,10 @@ package com.beehyv.server.service;
 
 import com.beehyv.server.dto.NotificationDto;
 import com.beehyv.server.entity.Notification;
+import com.beehyv.server.entity.Project;
 import com.beehyv.server.repository.EmployeeRepository;
 import com.beehyv.server.repository.NotificationRepository;
+import com.beehyv.server.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     private NotificationRepository notificationRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -79,7 +84,6 @@ public class NotificationServiceImpl implements NotificationService {
             }
             notificationDtos.add(
                     new NotificationDto(
-                            notification.getId(),
                             notification.getSender().getId(),
                             notification.getReceiver().getId(),
                             notification.getSubject().getId(),
@@ -94,7 +98,10 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public NotificationDto sendNotificationToEmployee(NotificationDto notificationDto) {
+    public NotificationDto sendNotificationToEmployee(Long projectId, NotificationDto notificationDto) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Cannot find project"));
+        Long managerId = project.getManager().getId();
+        notificationDto.setReceiverId(managerId);
         Notification notification = new Notification();
         notification.setTitle(notificationDto.getTitle());
         notification.setDescription(notificationDto.getDescription());

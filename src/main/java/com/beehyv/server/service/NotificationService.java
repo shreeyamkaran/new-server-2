@@ -12,5 +12,5 @@ public interface NotificationService {
 
     List<NotificationDto> fetchAllNotifications(Authentication authentication);
 
-    NotificationDto sendNotificationToEmployee(NotificationDto notification);
+    NotificationDto sendNotificationToEmployee(Long projectId, NotificationDto notification);
 }
